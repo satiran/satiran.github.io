@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VTuber Agency</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#1b1c2e;
+    color:#f4f5f8;
+    overflow-x:hidden;
+}
+
+/* =========================
+   COLORS
+========================= */
+
+:root{
+
+    --red:#e63950;
+    --black:#1b1c2e;
+    --white:#f4f5f8;
+    --orange:#E67939;
+
+    --transition:0.3s cubic-bezier(.2,.8,.2,1);
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+
+h1,h2,h3{
+    font-weight:800;
+    letter-spacing:-0.03em;
+}
+
+p{
+    line-height:1.8;
+    color:#d6d8e2;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.section-container{
+    max-width:1100px;
+    margin:auto;
+    padding:30px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+
+    position:sticky;
+    top:0;
+
+    z-index:1000;
+
+    background:#f4f5f8;
+
+    color:#1b1c2e;
+
+    padding:18px 28px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    box-shadow:
+        0 6px 20px rgba(0,0,0,0.15);
+}
+
+.logo{
+
+    font-size:1rem;
+    font-weight:800;
+
+    letter-spacing:0.18em;
+
+    text-transform:uppercase;
+}
+
+/* =========================
+   BURGER
+========================= */
+
+.hamburger{
+
+    width:54px;
+    height:54px;
+
+    border-radius:50%;
+
+    background:#e63950;
+
+    color:#f4f5f8;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    font-size:1.4rem;
+
+    transition:var(--transition);
+
+    box-shadow:
+        0 6px 20px rgba(230,57,80,0.35);
+}
+
+.hamburger:hover{
+
+    transform:scale(1.08);
+
+    background:#E67939;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+
+    margin-top:40px;
+    margin-bottom:70px;
+}
+
+.hero-img{
+
+    min-height:540px;
+
+    border-radius:32px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(230,57,80,0.82),
+            rgba(230,121,57,0.65)
+        ),
+        url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop")
+        center/cover;
+
+    display:flex;
+    align-items:flex-end;
+
+    padding:50px;
+}
+
+.hero-content{
+
+    max-width:520px;
+}
+
+.hero-content h1{
+
+    font-size:4rem;
+
+    line-height:0.95;
+
+    margin-bottom:20px;
+}
+
+/* =========================
+   ABOUT
+========================= */
+
+.about{
+
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+
+    gap:28px;
+
+    margin-bottom:70px;
+}
+
+.about-text{
+
+    background:#24263d;
+
+    padding:34px;
+
+    border-radius:24px;
+}
+
+.about-img{
+
+    background:#e63950;
+
+    border-radius:24px;
+
+    min-height:240px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:1.4rem;
+    font-weight:700;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+
+    display:grid;
+
+    grid-template-columns:1.4fr 1fr;
+
+    grid-template-areas:
+        "text image"
+        "button button";
+
+    gap:24px;
+
+    background:#e63950;
+
+    padding:28px;
+
+    border-radius:24px;
+
+    margin-bottom:24px;
+
+    transition:var(--transition);
+
+    overflow:hidden;
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+}
+
+.card-text{
+
+    grid-area:text;
+}
+
+.card-img{
+
+    grid-area:image;
+
+    min-height:200px;
+
+    border-radius:18px;
+
+    background:#24263d;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:1.2rem;
+    font-weight:700;
+
+    transition:var(--transition);
+}
+
+.card:hover .card-img{
+
+    background:#E67939;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.button{
+
+    grid-area:button;
+
+    width:100%;
+
+    min-height:90px;
+
+    border-radius:18px;
+
+    background:#E67939;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:1.2rem;
+    font-weight:700;
+
+    transition:var(--transition);
+
+    cursor:pointer;
+}
+
+.button:hover{
+
+    transform:translateY(-3px);
+
+    background:#24263d;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+
+    background:#f4f5f8;
+
+    color:#1b1c2e;
+
+    text-align:center;
+
+    padding:60px 30px;
+
+    margin-top:80px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+    .section-container{
+        padding:18px;
+    }
+
+    .hero-img{
+
+        min-height:430px;
+
+        padding:30px;
+    }
+
+    .hero-content h1{
+
+        font-size:2.6rem;
+    }
+
+    .about{
+
+        grid-template-columns:1fr;
+    }
+
+    .card{
+
+        grid-template-columns:1fr;
+
+        grid-template-areas:
+            "text"
+            "image"
+            "button";
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        SatiranTeam
+    </div>
+
+    <div class="hamburger">
+        ☰
+    </div>
+
+</header>
+
+<div class="section-container">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-img">
+
+            <div class="hero-content">
+
+                <h1>
+                    Scuderia Satiran
+                </h1>
+
+                <h2>
+                    nulla tenaci invia est via
+                </h2>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ABOUT -->
+
+    <section class="about">
+
+        <div class="about-text">
+
+            <h2>
+                About
+            </h2>
+
+            <p>
+                Kami adalah agensi Vtuber paling keren.
+                kita juga bikin band.
+                yeah yeah yeah.
+            </p>
+
+        </div>
+
+        <div class="about-img">
+            IMAGE
+        </div>
+
+    </section>
+
+    <!-- AUDITION -->
+
+    <section class="card-section">
+
+        <h2 style="margin-bottom:24px;">
+            Audition
+        </h2>
+
+        <a href="#" class="card">
+
+            <!-- TEXT -->
+
+            <div class="card-text">
+
+                <p>
+                    We need you to join the Naz Project.
+                    dan join band SachiRosso.
+                </p>
+
+                <br>
+
+                <h3>
+                    Tahap Audition
+                </h3>
+
+                <br>
+
+                <img 
+                    src="bar 1 biru gelap.png"
+                    style="
+                        width:100%;
+                        height:auto;
+                        border-radius:14px;
+                        display:block;
+                    "
+                >
+
+                <br>
+
+                <img 
+                    src="bar 2 biru gelap.png"
+                    style="
+                        width:100%;
+                        height:auto;
+                        border-radius:14px;
+                        display:block;
+                    "
+                >
+
+                <br>
+
+                <img 
+                    src="bar 3 biru gelap.png"
+                    style="
+                        width:100%;
+                        height:auto;
+                        border-radius:14px;
+                        display:block;
+                    "
+                >
+
+            </div>
+
+            <!-- IMAGE -->
+
+            <div class="card-img">
+                IMAGE
+            </div>
+
+            <!-- BUTTON -->
+
+            <div class="button">
+                > JOIN! <
+            </div>
+
+        </a>
+
+    </section>
+
+</div>
+
+<footer>
+
+    <h2>
+        SatiranTeam
+    </h2>
+
+    <p>
+        teamsatiran@gmail.com
+        <br>
+        © 2026 VTuber Agency
+    </p>
+
+</footer>
+
+</body>
+</html>

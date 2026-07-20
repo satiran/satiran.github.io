@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VTuber Agency</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#1b1c2e;
+    color:#f4f5f8;
+    overflow-x:hidden;
+}
+
+/* =========================
+   COLORS
+========================= */
+
+:root{
+
+    --red:#e63950;
+    --black:#1b1c2e;
+    --white:#f4f5f8;
+    --orange:#E67939;
+
+    --transition:0.3s cubic-bezier(.2,.8,.2,1);
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+
+h1,h2,h3{
+    font-weight:800;
+    letter-spacing:-0.03em;
+}
+
+p{
+    line-height:1.8;
+    color:#d6d8e2;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.section-container{
+    max-width:1100px;
+    margin:auto;
+    padding:30px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+
+    position:sticky;
+    top:0;
+
+    z-index:1000;
+
+    background:#f4f5f8;
+
+    color:#1b1c2e;
+
+    padding:18px 28px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    box-shadow:
+        0 6px 20px rgba(0,0,0,0.15);
+}
+
+.logo{
+
+    font-size:1rem;
+    font-weight:800;
+
+    letter-spacing:0.18em;
+
+    text-transform:uppercase;
+}
+
+/* =========================
+   BURGER BUTTON
+========================= */
+
+.hamburger{
+
+    width:54px;
+    height:54px;
+
+    border-radius:50%;
+
+    background:#e63950;
+
+    color:#f4f5f8;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    font-size:1.4rem;
+
+    transition:var(--transition);
+
+    box-shadow:
+        0 6px 20px rgba(230,57,80,0.35);
+}
+
+.hamburger:hover{
+
+    transform:scale(1.08);
+
+    background:#E67939;
+
+    box-shadow:
+        0 10px 28px rgba(230,121,57,0.45);
+}
+
+/* =========================
+   MENU SIDEBAR
+========================= */
+
+.menu-overlay{
+
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,0.45);
+
+    backdrop-filter:blur(6px);
+
+    z-index:3000;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:0.35s ease;
+}
+
+.menu-overlay.active{
+
+    opacity:1;
+    visibility:visible;
+}
+
+.menu-box{
+
+    position:absolute;
+
+    top:0;
+    right:0;
+
+    width:340px;
+    max-width:90vw;
+
+    height:100vh;
+
+    background:#f4f5f8;
+
+    color:#1b1c2e;
+
+    padding:110px 30px 40px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:18px;
+
+    transform:translateX(100%);
+
+    transition:
+        transform 0.45s cubic-bezier(.2,.8,.2,1);
+
+    box-shadow:
+        -10px 0 40px rgba(0,0,0,0.25);
+}
+
+.menu-overlay.active .menu-box{
+
+    transform:translateX(0);
+}
+
+.menu-title{
+
+    font-size:0.8rem;
+
+    letter-spacing:0.25em;
+
+    text-transform:uppercase;
+
+    color:#666;
+
+    margin-bottom:10px;
+
+    pointer-events:none;
+}
+
+.menu-link{
+
+    padding:18px 20px;
+
+    border-radius:18px;
+
+    font-size:1.1rem;
+    font-weight:700;
+
+    transition:var(--transition);
+}
+
+.menu-link:hover{
+
+    background:#e63950;
+
+    color:#f4f5f8;
+
+    transform:translateX(8px);
+}
+
+/* =========================
+   CLOSE BUTTON
+========================= */
+
+.close-btn{
+
+    position:absolute;
+
+    top:24px;
+    right:24px;
+
+    width:54px;
+    height:54px;
+
+    border-radius:50%;
+
+    background:#e63950;
+
+    color:#f4f5f8;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:1.5rem;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+    z-index:10;
+}
+
+.close-btn:hover{
+
+    transform:rotate(90deg);
+
+    background:#E67939;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+
+    margin-top:40px;
+    margin-bottom:70px;
+}
+
+.hero-img{
+
+    min-height:540px;
+
+    border-radius:32px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(230,57,80,0.82),
+            rgba(230,121,57,0.65)
+        ),
+        url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop")
+        center/cover;
+
+    display:flex;
+    align-items:flex-end;
+
+    padding:50px;
+
+    position:relative;
+}
+
+.hero-content{
+
+    max-width:520px;
+}
+
+.hero-content h1{
+
+    font-size:4rem;
+
+    line-height:0.95;
+
+    margin-bottom:20px;
+}
+
+.hero-content p{
+
+    font-size:1.05rem;
+
+    color:#f4f5f8;
+}
+
+/* =========================
+   ABOUT
+========================= */
+
+.about{
+
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+
+    gap:28px;
+
+    margin-bottom:70px;
+}
+
+.about-text{
+
+    background:#24263d;
+
+    padding:34px;
+
+    border-radius:24px;
+}
+
+.about-img{
+
+    background:#e63950;
+
+    border-radius:24px;
+
+    min-height:240px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:1.4rem;
+    font-weight:700;
+
+    transition:var(--transition);
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+
+    display:grid;
+
+    grid-template-columns:1.4fr 1fr;
+
+    grid-template-areas:
+        "text image"
+        "button button";
+
+    gap:24px;
+
+    background:#e63950;
+
+    padding:28px;
+
+    border-radius:24px;
+
+    margin-bottom:24px;
+
+    transition:var(--transition);
+
+    overflow:hidden;
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+}
+
+.card-text{
+
+    grid-area:text;
+}
+img{
+    width:100%;
+    height:auto;
+    border-radius:14px;
+    display:block;
+}
+
+.card-img{
+
+    grid-area:image;
+
+    min-height:200px;
+
+    border-radius:18px;
+
+    background:#24263d;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:1.2rem;
+    font-weight:700;
+
+    transition:var(--transition);
+}
+
+.card:hover .card-img{
+
+    background:#E67939;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.button{
+
+    grid-area:button;
+
+    width:100%;
+
+    min-height:90px;
+
+    border-radius:18px;
+
+    background:#E67939;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:1.2rem;
+    font-weight:700;
+
+    transition:var(--transition);
+
+    cursor:pointer;
+}
+
+.button:hover{
+
+    transform:translateY(-3px);
+
+    background:#24263d;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    /* Keeps your pattern image with a light overlay */
+    background: 
+        linear-gradient(
+            rgba(244, 245, 248, 0.85), 
+            rgba(244, 245, 248, 0.85)
+        ),
+        url("spiral.jpg") center/cover no-repeat;
+
+    color: #1b1c2e;
+    text-align: center;
+    
+    /* Forces it to span the entire width of the screen */
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+
+    padding: 80px 30px; 
+    margin-top: 80px;
+    border-top: 4px solid var(--red); 
+}
+
+footer p {
+    color: #1b1c2e; /* Darkened for better contrast against the pattern */
+    font-weight: 500;
+    margin-top: 12px;
+}
+
+.footer-buttons{
+
+    margin-top:24px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    gap:16px;
+}
+
+.footer-btn{
+
+    width:54px;
+    height:54px;
+
+    min-width:54px;
+    min-height:54px;
+
+    border-radius:50%;
+
+    background:#e63950;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    transition:var(--transition);
+
+    flex-shrink:0;
+}
+
+.footer-btn:hover{
+
+    background:#E67939;
+
+    transform:translateY(-4px);
+}
+
+.footer-btn svg{
+
+    width:22px;
+    height:22px;
+
+    fill:#f4f5f8;
+
+    display:block;
+}
+
+/* =========================
+   REVEAL
+========================= */
+
+.reveal{
+
+    opacity:0;
+
+    transform:translateY(40px);
+
+    transition:1s ease;
+}
+
+.reveal.active{
+
+    opacity:1;
+
+    transform:translateY(0);
+}
+
+/* =========================
+   AUDITION STEPS
+========================= */
+.audition-steps {
+    grid-area: image; /* Forces the images into the right column */
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* This handles the spacing perfectly */
+    justify-content: center;
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media(max-width:768px){
+
+    .section-container{
+        padding:18px;
+    }
+
+    .hero-img{
+        min-height:430px;
+        padding:30px;
+    }
+
+    .hero-content h1{
+        font-size:2.6rem;
+    }
+
+    .about,
+    .card{
+        grid-template-columns:1fr;
+    }
+
+    /* 👇 ADD THIS NEW BLOCK HERE 👇 */
+    .card {
+        grid-template-areas:
+            "image"
+            "text"
+            "button";
+    }
+    /* 👆 END OF NEW BLOCK 👆 */
+
+    .menu-box{
+        width:100%;
+        max-width:85vw;
+    }
+
+    .footer-btn{
+        width:46px;
+        height:46px;
+        min-width:46px;
+        min-height:46px;
+    }
+
+    .footer-btn svg{
+        width:18px;
+        height:18px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- MENU -->
+
+<div class="menu-overlay" id="menuOverlay">
+
+    <div class="close-btn" id="closeBtn">
+        ✕
+    </div>
+
+    <div class="menu-box">
+
+        <div class="menu-title">
+            VTUBER AGENCY
+        </div>
+
+        <a href="#home" class="menu-link">
+            Home
+        </a>
+
+        <a href="#talent" class="menu-link">
+            Talent
+        </a>
+
+        <a href="#audition" class="menu-link">
+            Audition
+        </a>
+
+        <a href="#contact" class="menu-link">
+            Contact
+        </a>
+
+    </div>
+
+</div>
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">
+        SatiranTeam
+    </div>
+
+    <div class="hamburger" id="hamburgerBtn">
+        ☰
+    </div>
+
+</header>
+
+<div class="section-container">
+
+    <!-- HERO -->
+
+    <section class="hero reveal" id="home">
+
+        <div class="hero-img">
+
+            <div class="hero-content">
+
+                <h1>
+                    Scuderia Satiran
+                </h1>
+
+                <h2>
+                    nulla tenaci invia est via
+                </h2>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ABOUT -->
+
+    <section class="about reveal">
+
+        <div class="about-text">
+
+            <h2>
+                About
+            </h2>
+
+            <p>
+                Kami adalah agensi Vtuber paling keren. kita juga bikin band. yeah yeah yeah.
+                ambutakam ahhh
+                kita gak bikin game lagi yeahhh!!!
+            </p>
+
+        </div>
+
+        <div class="about-img">
+            IMAGE
+        </div>
+
+    </section>
+
+    <!-- TALENT -->
+
+    <section class="card-section reveal" id="talent">
+
+        <h2>
+            ⠀Talent
+        </h2>
+
+        <a href="#" class="card">
+
+            <div class="card-text">
+                <h2>
+                    Murazumi Tarou
+                </h2>
+                <p>
+                    Makanan favoritnya pop es susu
+                </p>
+
+            </div>
+
+            <div class="card-img">
+                IMAGE
+            </div>
+
+        </a>
+
+        <a href="#" class="card">
+
+            <div class="card-text">
+
+                <h2>
+                    Naz Von Bella Tunacci Murinni Giancarlo
+                </h2>
+                <p>
+                    Makanan favoritnya dih nya si pembuat website. yeah yeah
+                </p>
+
+            </div>
+
+            <div class="card-img">
+                IMAGE
+            </div>
+
+        </a>
+
+    </section>
+
+   <!-- AUDITION -->
+<section class="card-section reveal" id="audition">
+    <p>
+    ⠀
+    </p>
+    <h2>
+        ⠀Audition
+    </h2>
+
+    <a href="#" class="card">
+        
+        <!-- GREEN RECTANGLE (TEXT BOX) -->
+        <div class="card-text">
+            <h2>KONTOL</h2>
+            <p>
+                dicari prostitute real no fekk. uang banyak. ada mesh
+            </p>
+        </div>
+
+        <!-- IMAGE STEPS -->
+        <div class="audition-steps">
+            <img src="bar 1 biru gelap.png" width="500" height="150" alt="Step 1">
+            <img src="bar 2 biru gelap.png" width="500" height="150" alt="Step 2">
+            <img src="bar 3 biru gelap.png" width="500" height="150" alt="Step 3">
+        </div>
+
+        <!-- BUTTON -->
+        <div class="button">
+            > JOIN! <
+        </div>
+
+    </a>
+</section>
+</div>
+<!-- FOOTER -->
+
+<footer id="contact">
+
+    <h2>
+        SatiranTeam
+    </h2>
+
+    <p>
+        teamsatiran@gmail.com
+        <br>
+        © 2026 VTuber Agency
+    </p>
+
+    <div class="footer-buttons">
+
+        <a href="#" class="footer-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2H21l-6.56 7.497L22 22h-6.828l-5.348-6.993L3.7 22H1l7.017-8.018L2 2h7l4.833 6.37L18.244 2Zm-1.197 18h1.885L7.976 3.896H5.954L17.047 20Z"/>
+            </svg>
+        </a>
+
+        <a href="#" class="footer-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.75 2C4.574 2 2 4.574 2 7.75v8.5C2 19.426 4.574 22 7.75 22h8.5C19.426 22 22 19.426 22 16.25v-8.5C22 4.574 19.426 2 16.25 2h-8.5Zm0 1.8h8.5a3.95 3.95 0 0 1 3.95 3.95v8.5a3.95 3.95 0 0 1-3.95 3.95h-8.5a3.95 3.95 0 0 1-3.95-3.95v-8.5A3.95 3.95 0 0 1 7.75 3.8Zm9.15 1.35a1.05 1.05 0 1 0 0 2.1 1.05 1.05 0 0 0 0-2.1ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 1.8A3.2 3.2 0 1 1 8.8 12 3.2 3.2 0 0 1 12 8.8Z"/>
+            </svg>
+        </a>
+
+        <a href="#" class="footer-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M21.582 6.186a2.804 2.804 0 0 0-1.972-1.984C17.87 3.75 12 3.75 12 3.75s-5.87 0-7.61.452A2.804 2.804 0 0 0 2.418 6.186C1.964 7.938 1.964 11.6 1.964 11.6s0 3.662.454 5.414a2.804 2.804 0 0 0 1.972 1.984c1.74.452 7.61.452 7.61.452s5.87 0 7.61-.452a2.804 2.804 0 0 0 1.972-1.984c.454-1.752.454-5.414.454-5.414s0-3.662-.454-5.414ZM9.75 15.02V8.18l5.7 3.42-5.7 3.42Z"/>
+            </svg>
+        </a>
+
+    </div>
+</footer>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* REVEAL */
+
+    const reveals =
+        document.querySelectorAll('.reveal');
+
+    const revealOnScroll = () => {
+
+        const windowHeight =
+            window.innerHeight;
+
+        reveals.forEach((reveal) => {
+
+            const elementTop =
+                reveal.getBoundingClientRect().top;
+
+            if(elementTop < windowHeight - 100){
+
+                reveal.classList.add('active');
+
+            }
+
+        });
+
+    };
+
+    revealOnScroll();
+
+    window.addEventListener(
+        'scroll',
+        revealOnScroll
+    );
+
+    /* MENU */
+
+    const hamburgerBtn =
+        document.getElementById('hamburgerBtn');
+
+    const closeBtn =
+        document.getElementById('closeBtn');
+
+    const menuOverlay =
+        document.getElementById('menuOverlay');
+
+    const menuBox =
+        document.querySelector('.menu-box');
+
+    const menuLinks =
+        document.querySelectorAll('.menu-link');
+
+    const openMenu = () => {
+
+        menuOverlay.classList.add('active');
+
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeMenu = () => {
+
+        menuOverlay.classList.remove('active');
+
+        document.body.style.overflow = '';
+    };
+
+    hamburgerBtn.addEventListener('click', openMenu);
+
+    closeBtn.addEventListener('click', closeMenu);
+
+    /* CLICK OUTSIDE SIDEBAR */
+
+    menuOverlay.addEventListener('click', (e) => {
+
+        if(!menuBox.contains(e.target)){
+
+            closeMenu();
+
+        }
+
+    });
+
+    /* CLOSE WHEN CLICK LINK */
+
+    menuLinks.forEach(link => {
+
+        link.addEventListener('click', () => {
+
+            closeMenu();
+
+        });
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
