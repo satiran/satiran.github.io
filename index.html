@@ -1,990 +1,734 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>VTuber Agency</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-/* =========================
-   RESET
-========================= */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:'Inter',sans-serif;
-    background:#1b1c2e;
-    color:#f4f5f8;
-    overflow-x:hidden;
-}
-
-/* =========================
-   COLORS
-========================= */
-
-:root{
-
-    --red:#e63950;
-    --black:#1b1c2e;
-    --white:#f4f5f8;
-    --orange:#E67939;
-
-    --transition:0.3s cubic-bezier(.2,.8,.2,1);
-}
-
-/* =========================
-   TYPOGRAPHY
-========================= */
-
-h1,h2,h3{
-    font-weight:800;
-    letter-spacing:-0.03em;
-}
-
-p{
-    line-height:1.8;
-    color:#d6d8e2;
-}
-
-a{
-    text-decoration:none;
-    color:inherit;
-}
-
-/* =========================
-   LAYOUT
-========================= */
-
-.section-container{
-    max-width:1100px;
-    margin:auto;
-    padding:30px;
-}
-
-/* =========================
-   HEADER
-========================= */
-
-header{
-
-    position:sticky;
-    top:0;
-
-    z-index:1000;
-
-    background:
-        linear-gradient(
-            rgba(244,245,248,.85),
-            rgba(244,245,248,.85)
-        ),
-        url("spiral\ 2.png") center/cover no-repeat;
-    color:#1b1c2e;
-
-    padding:18px 28px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    box-shadow:
-        0 6px 20px rgba(0,0,0,0.15);
-}
-
-.logo{
-
-    font-size:1rem;
-    font-weight:800;
-
-    letter-spacing:0.18em;
-
-    text-transform:uppercase;
-}
-
-/* =========================
-   BURGER BUTTON
-========================= */
-
-.hamburger{
-
-    width:54px;
-    height:54px;
-
-    border-radius:50%;
-
-    background:#e63950;
-
-    color:#f4f5f8;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    cursor:pointer;
-
-    font-size:1.4rem;
-
-    transition:var(--transition);
-
-    box-shadow:
-        0 6px 20px rgba(230,57,80,0.35);
-}
-
-.hamburger:hover{
-
-    transform:scale(1.08);
-
-    background:#E67939;
-
-    box-shadow:
-        0 10px 28px rgba(230,121,57,0.45);
-}
-
-/* =========================
-   MENU SIDEBAR
-========================= */
-
-.menu-overlay{
-
-    position:fixed;
-    inset:0;
-
-    background:rgba(0,0,0,0.45);
-
-    backdrop-filter:blur(6px);
-
-    z-index:3000;
-
-    opacity:0;
-    visibility:hidden;
-
-    transition:0.35s ease;
-}
-
-.menu-overlay.active{
-
-    opacity:1;
-    visibility:visible;
-}
-
-.menu-box{
-
-    position:absolute;
-
-    top:0;
-    right:0;
-
-    width:340px;
-    max-width:90vw;
-
-    height:100vh;
-
-    background:#f4f5f8;
-
-    color:#1b1c2e;
-
-    padding:110px 30px 40px;
-
-    display:flex;
-    flex-direction:column;
-
-    gap:18px;
-
-    transform:translateX(100%);
-
-    transition:
-        transform 0.45s cubic-bezier(.2,.8,.2,1);
-
-    box-shadow:
-        -10px 0 40px rgba(0,0,0,0.25);
-}
-
-.menu-overlay.active .menu-box{
-
-    transform:translateX(0);
-}
-
-.menu-title{
-
-    font-size:0.8rem;
-
-    letter-spacing:0.25em;
-
-    text-transform:uppercase;
-
-    color:#666;
-
-    margin-bottom:10px;
-
-    pointer-events:none;
-}
-
-.menu-link{
-
-    padding:18px 20px;
-
-    border-radius:18px;
-
-    font-size:1.1rem;
-    font-weight:700;
-
-    transition:var(--transition);
-}
-
-.menu-link:hover{
-
-    background:#e63950;
-
-    color:#f4f5f8;
-
-    transform:translateX(8px);
-}
-
-/* =========================
-   CLOSE BUTTON
-========================= */
-
-.close-btn{
-
-    position:absolute;
-
-    top:24px;
-    right:24px;
-
-    width:54px;
-    height:54px;
-
-    border-radius:50%;
-
-    background:#e63950;
-
-    color:#f4f5f8;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:1.5rem;
-
-    cursor:pointer;
-
-    transition:var(--transition);
-
-    z-index:10;
-}
-
-.close-btn:hover{
-
-    transform:rotate(90deg);
-
-    background:#E67939;
-}
-
-/* =========================
-   HERO
-========================= */
-
-.hero{
-
-    margin-top:40px;
-    margin-bottom:70px;
-}
-
-.hero-img{
-
-    min-height:540px;
-
-    border-radius:32px;
-
-    overflow:hidden;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(230,57,80,0.82),
-            rgba(230,121,57,0.65)
-        ),
-        url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop")
-        center/cover;
-
-    display:flex;
-    align-items:flex-end;
-
-    padding:50px;
-
-    position:relative;
-}
-
-.hero-content{
-
-    max-width:520px;
-}
-
-.hero-content h1{
-
-    font-size:4rem;
-
-    line-height:0.95;
-
-    margin-bottom:20px;
-}
-
-.hero-content p{
-
-    font-size:1.05rem;
-
-    color:#f4f5f8;
-}
-
-/* =========================
-   ABOUT
-========================= */
-
-.about{
-
-    display:grid;
-    grid-template-columns:1.3fr 1fr;
-
-    gap:28px;
-
-    margin-bottom:70px;
-}
-
-.about-text{
-
-    background:#24263d;
-
-    padding:34px;
-
-    border-radius:24px;
-}
-
-.about-img{
-
-    background:#e63950;
-
-    border-radius:24px;
-
-    min-height:240px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:1.4rem;
-    font-weight:700;
-
-    transition:var(--transition);
-}
-
-/* =========================
-   CARD
-========================= */
-
-.card{
-
-    display:grid;
-
-    grid-template-columns:1.4fr 1fr;
-
-    grid-template-areas:
-        "text image"
-        "button button";
-
-    gap:24px;
-
-    background:#e63950;
-
-    padding:28px;
-
-    border-radius:24px;
-
-    margin-bottom:24px;
-
-    transition:var(--transition);
-
-    overflow:hidden;
-}
-
-.card:hover{
-
-    transform:translateY(-6px);
-}
-
-.card-text{
-
-    grid-area:text;
-}
-img{
-    width:100%;
-    height:auto;
-    border-radius:14px;
-    display:block;
-}
-
-.card-img{
-
-    grid-area:image;
-
-    min-height:200px;
-
-    border-radius:18px;
-
-    background:#24263d;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:1.2rem;
-    font-weight:700;
-
-    transition:var(--transition);
-}
-
-.card:hover .card-img{
-
-    background:#E67939;
-}
-
-/* =========================
-   BUTTON
-========================= */
-
-.button{
-
-    grid-area:button;
-
-    width:100%;
-
-    min-height:90px;
-
-    border-radius:18px;
-
-    background:#E67939;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:1.2rem;
-    font-weight:700;
-
-    transition:var(--transition);
-
-    cursor:pointer;
-}
-
-.button:hover{
-
-    transform:translateY(-3px);
-
-    background:#24263d;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-    /* Keeps your pattern image with a light overlay */
-    background: 
-        linear-gradient(
-            rgba(244, 245, 248, 0.85), 
-            rgba(244, 245, 248, 0.85)
-        ),
-        url("spiral.jpg") center/cover no-repeat;
-
-    color: #1b1c2e;
-    text-align: center;
-    
-    /* Forces it to span the entire width of the screen */
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-
-    padding: 80px 30px; 
-    margin-top: 80px;
-    border-top: 4px solid var(--red); 
-}
-
-footer p {
-    color: #1b1c2e; /* Darkened for better contrast against the pattern */
-    font-weight: 500;
-    margin-top: 12px;
-}
-
-.footer-buttons{
-
-    margin-top:24px;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    gap:16px;
-}
-
-.footer-btn{
-
-    width:54px;
-    height:54px;
-
-    min-width:54px;
-    min-height:54px;
-
-    border-radius:50%;
-
-    background:#e63950;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    transition:var(--transition);
-
-    flex-shrink:0;
-}
-
-.footer-btn:hover{
-
-    background:#E67939;
-
-    transform:translateY(-4px);
-}
-
-.footer-btn svg{
-
-    width:22px;
-    height:22px;
-
-    fill:#f4f5f8;
-
-    display:block;
-}
-
-/* =========================
-   REVEAL
-========================= */
-
-.reveal{
-
-    opacity:0;
-
-    transform:translateY(40px);
-
-    transition:1s ease;
-}
-
-.reveal.active{
-
-    opacity:1;
-
-    transform:translateY(0);
-}
-
-/* =========================
-   AUDITION STEPS
-========================= */
-.audition-steps {
-    grid-area: image; /* Forces the images into the right column */
-    display: flex;
-    flex-direction: column;
-    gap: 16px; /* This handles the spacing perfectly */
-    justify-content: center;
-}
-
-/* =========================
-   MOBILE
-========================= */
-@media(max-width:768px){
-
-    .section-container{
-        padding:18px;
-    }
-
-    .hero-img{
-        min-height:430px;
-        padding:30px;
-    }
-
-    .hero-content h1{
-        font-size:2.6rem;
-    }
-
-    .about,
-    .card{
-        grid-template-columns:1fr;
-    }
-
-    /* 👇 ADD THIS NEW BLOCK HERE 👇 */
-    .card {
-        grid-template-areas:
-            "image"
-            "text"
-            "button";
-    }
-    /* 👆 END OF NEW BLOCK 👆 */
-
-    .menu-box{
-        width:100%;
-        max-width:85vw;
-    }
-
-    .footer-btn{
-        width:46px;
-        height:46px;
-        min-width:46px;
-        min-height:46px;
-    }
-
-    .footer-btn svg{
-        width:18px;
-        height:18px;
-    }
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- MENU -->
-
-<div class="menu-overlay" id="menuOverlay">
-
-    <div class="close-btn" id="closeBtn">
-        ✕
-    </div>
-
-    <div class="menu-box">
-
-        <div class="menu-title">
-            VTUBER AGENCY
-        </div>
-
-        <a href="#home" class="menu-link">
-            Home
-        </a>
-
-        <a href="#talent" class="menu-link">
-            Talent
-        </a>
-
-        <a href="#audition" class="menu-link">
-            Audition
-        </a>
-
-        <a href="#contact" class="menu-link">
-            Contact
-        </a>
-
-    </div>
-
-</div>
-
-<!-- HEADER -->
-
-<header>
-
-    <div class="logo">
-        SatiranTeam
-    </div>
-
-    <div class="hamburger" id="hamburgerBtn">
-        ☰
-    </div>
-
-</header>
-
-<div class="section-container">
-
-    <!-- HERO -->
-
-    <section class="hero reveal" id="home">
-
-        <div class="hero-img">
-
-            <div class="hero-content">
-
-                <h1>
-                    Scuderia Satiran
-                </h1>
-
-                <h2>
-                    nulla tenaci invia est via
-                </h2>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ABOUT -->
-
-    <section class="about reveal">
-
-        <div class="about-text">
-
-            <h2>
-                About
-            </h2>
-
-            <p>
-                Kami adalah agensi Vtuber paling keren. kita juga bikin band. yeah yeah yeah.
-                ambutakam ahhh
-                kita gak bikin game lagi yeahhh!!!
-            </p>
-
-        </div>
-
-        <div class="about-img">
-            IMAGE
-        </div>
-
-    </section>
-
-    <!-- TALENT -->
-
-    <section class="card-section reveal" id="talent">
-
-        <h2>
-            ⠀Talent
-        </h2>
-        <p style="font-size: 5px;">
-        ⠀
-        </p>
-
-        <a href="#" class="card">
-
-            <div class="card-text">
-                <h2>
-                    Murazumi Tarou
-                </h2>
-                <p>
-                    Makanan favoritnya pop es susu
-                </p>
-
-            </div>
-
-            <div class="card-img">
-                IMAGE
-            </div>
-
-        </a>
-
-        <a href="#" class="card">
-
-            <div class="card-text">
-
-                <h2>
-                    Naz Von Bella Tunacci Murinni Giancarlo
-                </h2>
-                <p>
-                    Makanan favoritnya dih nya si pembuat website. yeah yeah
-                </p>
-
-            </div>
-
-            <div class="card-img">
-                IMAGE
-            </div>
-
-        </a>
-
-    </section>
-
-   <!-- AUDITION -->
-<section class="card-section reveal" id="audition">
-    <p>
-    ⠀
-    </p>
-    <h2>
-        ⠀Audition
-    </h2>
-    <p style="font-size: 5px;">
-    ⠀
-    </p>
-
-    <a href="#" class="card">
-        
-        <!-- GREEN RECTANGLE (TEXT BOX) -->
-        <div class="card-text">
-            <h2>KONTOL</h2>
-            <p>
-                dicari prostitute real no fekk. uang banyak. ada mesh
-            </p>
-        </div>
-
-        <!-- IMAGE STEPS -->
-        <div class="audition-steps">
-            <img src="bar 1 biru gelap.png" width="500" height="150" alt="Step 1">
-            <img src="bar 2 biru gelap.png" width="500" height="150" alt="Step 2">
-            <img src="bar 3 biru gelap.png" width="500" height="150" alt="Step 3">
-        </div>
-
-        <!-- BUTTON -->
-        <div class="button">
-            > JOIN! <
-        </div>
-
-    </a>
-</section>
-</div>
-<!-- FOOTER -->
-
-<footer id="contact">
-
-    <h2>
-        SatiranTeam
-    </h2>
-
-    <p>
-        teamsatiran@gmail.com
-        <br>
-        © 2026 VTuber Agency
-    </p>
-
-    <div class="footer-buttons">
-
-        <a href="#" class="footer-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.244 2H21l-6.56 7.497L22 22h-6.828l-5.348-6.993L3.7 22H1l7.017-8.018L2 2h7l4.833 6.37L18.244 2Zm-1.197 18h1.885L7.976 3.896H5.954L17.047 20Z"/>
-            </svg>
-        </a>
-
-        <a href="#" class="footer-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M7.75 2C4.574 2 2 4.574 2 7.75v8.5C2 19.426 4.574 22 7.75 22h8.5C19.426 22 22 19.426 22 16.25v-8.5C22 4.574 19.426 2 16.25 2h-8.5Zm0 1.8h8.5a3.95 3.95 0 0 1 3.95 3.95v8.5a3.95 3.95 0 0 1-3.95 3.95h-8.5a3.95 3.95 0 0 1-3.95-3.95v-8.5A3.95 3.95 0 0 1 7.75 3.8Zm9.15 1.35a1.05 1.05 0 1 0 0 2.1 1.05 1.05 0 0 0 0-2.1ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 1.8A3.2 3.2 0 1 1 8.8 12 3.2 3.2 0 0 1 12 8.8Z"/>
-            </svg>
-        </a>
-
-        <a href="#" class="footer-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M21.582 6.186a2.804 2.804 0 0 0-1.972-1.984C17.87 3.75 12 3.75 12 3.75s-5.87 0-7.61.452A2.804 2.804 0 0 0 2.418 6.186C1.964 7.938 1.964 11.6 1.964 11.6s0 3.662.454 5.414a2.804 2.804 0 0 0 1.972 1.984c1.74.452 7.61.452 7.61.452s5.87 0 7.61-.452a2.804 2.804 0 0 0 1.972-1.984c.454-1.752.454-5.414.454-5.414s0-3.662-.454-5.414ZM9.75 15.02V8.18l5.7 3.42-5.7 3.42Z"/>
-            </svg>
-        </a>
-
-    </div>
-</footer>
-
-<script>
-
-document.addEventListener('DOMContentLoaded', () => {
-
-    /* REVEAL */
-
-    const reveals =
-        document.querySelectorAll('.reveal');
-
-    const revealOnScroll = () => {
-
-        const windowHeight =
-            window.innerHeight;
-
-        reveals.forEach((reveal) => {
-
-            const elementTop =
-                reveal.getBoundingClientRect().top;
-
-            if(elementTop < windowHeight - 100){
-
-                reveal.classList.add('active');
-
-            }
-
-        });
-
-    };
-
-    revealOnScroll();
-
-    window.addEventListener(
-        'scroll',
-        revealOnScroll
-    );
-
-    /* MENU */
-
-    const hamburgerBtn =
-        document.getElementById('hamburgerBtn');
-
-    const closeBtn =
-        document.getElementById('closeBtn');
-
-    const menuOverlay =
-        document.getElementById('menuOverlay');
-
-    const menuBox =
-        document.querySelector('.menu-box');
-
-    const menuLinks =
-        document.querySelectorAll('.menu-link');
-
-    const openMenu = () => {
-
-        menuOverlay.classList.add('active');
-
-        document.body.style.overflow = 'hidden';
-    };
-
-    const closeMenu = () => {
-
-        menuOverlay.classList.remove('active');
-
-        document.body.style.overflow = '';
-    };
-
-    hamburgerBtn.addEventListener('click', openMenu);
-
-    closeBtn.addEventListener('click', closeMenu);
-
-    /* CLICK OUTSIDE SIDEBAR */
-
-    menuOverlay.addEventListener('click', (e) => {
-
-        if(!menuBox.contains(e.target)){
-
-            closeMenu();
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scuderia Satiran - VTuber Agency</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================
+           RESET & VARIABLES
+        ========================= */
+        :root {
+            /* Deeper, sleeker dark background */
+            --bg-dark: #1b1c2e; 
+            /* True VTuber Crimson Red */
+            --red: #EB2B6B;
+            --red-hover: #EB2B6B;
+            --red-glow: rgba(255, 42, 75, 0.4);
+            
+            /* Glassmorphism variables */
+            --glass-bg: rgba(25, 27, 40, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(16px);
+            
+            --text-light: #ffffff;
+            --text-muted: #a4a7b9;
+            --transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-    });
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* CLOSE WHEN CLICK LINK */
+        html {
+            scroll-behavior: smooth;
+        }
 
-    menuLinks.forEach(link => {
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            /* Subtle dot pattern for a slightly techy/Japanese pop vibe */
+            background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-        link.addEventListener('click', () => {
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-            closeMenu();
+        /* =========================
+           TYPOGRAPHY
+        ========================= */
+        h1, h2, h3 {
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
 
+        h2 {
+            font-size: 2.4rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            position: relative;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* =========================
+           LAYOUT
+        ========================= */
+        .section-container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 60px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 80px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(rgba(244, 245, 248, 0.9), rgba(244, 245, 248, 0.9)), url("spiral 2.png") center/cover no-repeat;
+            backdrop-filter: blur(10px);
+            color: #000;
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            border-bottom: 3px solid var(--red);
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 900;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .hamburger {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px; /* Slightly sharper corners for modern feel */
+            background: var(--red);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px var(--red-glow);
+        }
+
+        .hamburger:hover {
+            transform: scale(1.08);
+            background: var(--red-hover);
+            box-shadow: 0 6px 20px var(--red-glow);
+        }
+
+        /* =========================
+           MENU SIDEBAR (GLASSY)
+        ========================= */
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 14, 21, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-box {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 380px;
+            max-width: 100vw;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            color: #000;
+            padding: 120px 40px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu-overlay.active .menu-box {
+            transform: translateX(0);
+        }
+
+        .menu-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 10px;
+        }
+
+        .menu-link {
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .menu-link:hover {
+            background: var(--red);
+            color: var(--text-light);
+            transform: translateX(10px);
+            box-shadow: 0 4px 15px var(--red-glow);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: var(--red);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 4px 15px var(--red-glow);
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+        .hero-img {
+            min-height: 540px;
+            border-radius: 24px;
+            overflow: hidden;
+            /* Replaced orange with a deep dark blue/black for higher contrast */
+            background: linear-gradient(135deg, rgba(255, 42, 75, 0.85), rgba(13, 14, 21, 0.8)), url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop") center/cover;
+            display: flex;
+            align-items: flex-end;
+            padding: 60px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            animation: slideUp 1s ease forwards;
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            line-height: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            text-transform: uppercase;
+            letter-spacing: -0.04em;
+        }
+
+        .hero-content h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0;
+            letter-spacing: 0.05em;
+        }
+
+        /* =========================
+           GLASS PANELS (About & Talent)
+        ========================= */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(255, 42, 75, 0.4);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 42, 75, 0.1) inset;
+        }
+
+        .image-placeholder {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.3);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle glowing line accent on images */
+        .image-placeholder::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .image-placeholder:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.02);
+        }
+
+        .image-placeholder:hover::after {
+            opacity: 1;
+        }
+
+        /* Talent Cards */
+        .talent-card {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 30px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            padding: 35px;
+            border-radius: 24px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .talent-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--red);
+            box-shadow: 0 15px 40px rgba(255, 42, 75, 0.15);
+        }
+
+        .talent-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .talent-card .image-placeholder {
+            min-height: 220px;
+        }
+
+        /* =========================
+           AUDITION SECTION
+        ========================= */
+        .audition-wrapper {
+            /* --- GLASS EFFECT MODIFICATIONS --- */
+            background: linear-gradient(135deg, rgb(235, 43, 107), rgba(40, 11, 58, 0.9)); /* Translucent red tint */
+            -webkit-backdrop-filter: blur(20px); /* Safari support */
+            border-radius: 24px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas: 
+                "text steps"
+                "button button";
+            gap: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Abstract structural overlay to mimic Japanese graphic design */
+        .audition-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -20%; right: -10%;
+            width: 300px; height: 300px;
+            pointer-events: none;
+        }
+
+        .audition-text {
+            grid-area: text;
+            z-index: 2;
+        }
+        
+        .audition-text h2 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .audition-text p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .audition-steps {
+            grid-area: steps;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-end;
+            z-index: 2;
+        }
+
+        .audition-steps img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 12px;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .audition-steps img:hover {
+            transform: translateX(-10px) scale(1.02);
+        }
+
+        /* Crisper, high-contrast button to replace the orange */
+        .action-button {
+            grid-area: button;
+            width: 100%;
+            padding: 25px;
+            border-radius: 16px;
+            background: #ffffff;
+            color: var(--red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: var(--transition);
+            cursor: pointer;
+            z-index: 2;
+            border: none;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .action-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+        footer {
+            background: linear-gradient(rgba(244, 245, 248, 0.9), rgba(244, 245, 248, 0.9)), url("spiral.jpg") center/cover no-repeat;
+            color: #000;
+            text-align: center;
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 80px 30px;
+            border-top: 5px solid var(--red);
+        }
+
+        footer h2 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        footer p {
+            color: #333;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .footer-buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            background: var(--red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 42, 75, 0.3);
+        }
+
+        .footer-btn:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        /* =========================
+           ANIMATIONS & REVEAL
+        ========================= */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* =========================
+           MOBILE RESPONSIVENESS
+        ========================= */
+        @media(max-width: 768px) {
+            .section-container {
+                padding: 40px 20px;
+                gap: 50px;
+            }
+
+            .hero-img {
+                min-height: 400px;
+                padding: 40px 25px;
+            }
+
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+
+            .grid-layout, .talent-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .talent-card .image-placeholder {
+                order: -1;
+            }
+
+            .audition-wrapper {
+                grid-template-areas: 
+                    "text"
+                    "steps"
+                    "button";
+                grid-template-columns: 1fr;
+                padding: 30px 20px;
+            }
+
+            .audition-steps {
+                align-items: center;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MENU OVERLAY -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-box">
+            <div class="close-btn" id="closeBtn">✕</div>
+            <div class="menu-title">Navigation</div>
+            <a href="#home" class="menu-link">Home</a>
+            <a href="#about" class="menu-link">About</a>
+            <a href="#talent" class="menu-link">Talent</a>
+            <a href="#audition" class="menu-link">Audition</a>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">SatiranTeam</div>
+        <div class="hamburger" id="hamburgerBtn">☰</div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="section-container">
+
+        <!-- HERO -->
+        <section class="hero reveal" id="home">
+            <div class="hero-img">
+                <div class="hero-content">
+                    <h1>Scuderia Satiran</h1>
+                    <h2>nulla tenaci invia est via</h2>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section class="grid-layout reveal" id="about">
+            <div class="glass-panel">
+                <h2>About</h2>
+                <p>
+                    Kami adalah agensi Vtuber paling keren. kita juga bikin band. yeah yeah yeah.<br>
+                    ambutakam ahhh<br>
+                    kita gak bikin game lagi yeahhh!!!
+                </p>
+            </div>
+            <div class="image-placeholder">IMAGE</div>
+        </section>
+
+        <!-- TALENT -->
+        <section class="reveal" id="talent">
+            <h2>Talent</h2>
+            
+            <a href="#" class="talent-card">
+                <div class="card-text">
+                    <h3>Murazumi Tarou</h3>
+                    <p>Makanan favoritnya pop es susu</p>
+                </div>
+                <div class="image-placeholder">IMAGE</div>
+            </a>
+
+            <a href="#" class="talent-card">
+                <div class="card-text">
+                    <h3>Naz Von Bella Tunacci Murinni Giancarlo</h3>
+                    <p>Makanan favoritnya dih nya si pembuat website. yeah yeah</p>
+                </div>
+                <div class="image-placeholder">IMAGE</div>
+            </a>
+        </section>
+
+        <!-- AUDITION -->
+        <section class="reveal" id="audition">
+            <h2>Audition</h2>
+
+            <div class="audition-wrapper">
+                <div class="audition-text">
+                    <h2>KONTOL</h2>
+                    <p>dicari prostitute real no fekk. uang banyak. ada mesh</p>
+                </div>
+
+                <div class="audition-steps">
+                    <img src="bar 1 biru gelap.png" alt="Step 1">
+                    <img src="bar 2 biru gelap.png" alt="Step 2">
+                    <img src="bar 3 biru gelap.png" alt="Step 3">
+                </div>
+
+                <button class="action-button">> JOIN! <</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <h2>SatiranTeam</h2>
+        <p>
+            teamsatiran@gmail.com<br>
+            © 2026 VTuber Agency
+        </p>
+
+        <div class="footer-buttons">
+            <a href="#" class="footer-btn">
+                <svg viewBox="0 0 24 24"><path d="M18.244 2H21l-6.56 7.497L22 22h-6.828l-5.348-6.993L3.7 22H1l7.017-8.018L2 2h7l4.833 6.37L18.244 2Zm-1.197 18h1.885L7.976 3.896H5.954L17.047 20Z"/></svg>
+            </a>
+            <a href="#" class="footer-btn">
+                <svg viewBox="0 0 24 24"><path d="M7.75 2C4.574 2 2 4.574 2 7.75v8.5C2 19.426 4.574 22 7.75 22h8.5C19.426 22 22 19.426 22 16.25v-8.5C22 4.574 19.426 2 16.25 2h-8.5Zm0 1.8h8.5a3.95 3.95 0 0 1 3.95 3.95v8.5a3.95 3.95 0 0 1-3.95 3.95h-8.5a3.95 3.95 0 0 1-3.95-3.95v-8.5A3.95 3.95 0 0 1 7.75 3.8Zm9.15 1.35a1.05 1.05 0 1 0 0 2.1 1.05 1.05 0 0 0 0-2.1ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 1.8A3.2 3.2 0 1 1 8.8 12 3.2 3.2 0 0 1 12 8.8Z"/></svg>
+            </a>
+            <a href="#" class="footer-btn">
+                <svg viewBox="0 0 24 24"><path d="M21.582 6.186a2.804 2.804 0 0 0-1.972-1.984C17.87 3.75 12 3.75 12 3.75s-5.87 0-7.61.452A2.804 2.804 0 0 0 2.418 6.186C1.964 7.938 1.964 11.6 1.964 11.6s0 3.662.454 5.414a2.804 2.804 0 0 0 1.972 1.984c1.74.452 7.61.452 7.61.452s5.87 0 7.61-.452a2.804 2.804 0 0 0 1.972-1.984c.454-1.752.454-5.414.454-5.414s0-3.662-.454-5.414ZM9.75 15.02V8.18l5.7 3.42-5.7 3.42Z"/></svg>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            /* REVEAL ON SCROLL */
+            const reveals = document.querySelectorAll('.reveal');
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if(elementTop < windowHeight - 80) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+            
+            revealOnScroll();
+            window.addEventListener('scroll', revealOnScroll);
+
+            /* MENU TOGGLE */
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const menuOverlay = document.getElementById('menuOverlay');
+            const menuBox = document.querySelector('.menu-box');
+            const menuLinks = document.querySelectorAll('.menu-link');
+
+            const openMenu = () => {
+                menuOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeMenu = () => {
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+
+            hamburgerBtn.addEventListener('click', openMenu);
+            closeBtn.addEventListener('click', closeMenu);
+
+            /* CLICK OUTSIDE SIDEBAR */
+            menuOverlay.addEventListener('click', (e) => {
+                if(!menuBox.contains(e.target)){
+                    closeMenu();
+                }
+            });
+
+            /* CLOSE ON LINK CLICK */
+            menuLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
         });
-
-    });
-
-});
-
-</script>
-
+    </script>
 </body>
 </html>
